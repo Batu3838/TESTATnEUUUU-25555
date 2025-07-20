@@ -6,7 +6,10 @@ package de.hrw.wi.service;
 import de.hrw.wi.business.Car;
 import de.hrw.wi.persistence.DatabaseReadInterface;
 import de.hrw.wi.persistence.DatabaseWriteInterface;
+import de.hrw.wi.types.Datum;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -14,6 +17,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 /**
  * Teste CarRentalServiceImpl mit Mocking
@@ -50,6 +54,29 @@ public class CarRentalServiceImplTest {
     private CarRentalServiceInterface carRentalService;
     private DatabaseReadInterface dbReadMock;
     private DatabaseWriteInterface dbWriteMock;
+
+    Datum from = new Datum(2026,1,1);
+    Datum to = new Datum(2027,2,3);
+
+
+
+
+    @BeforeEach
+    public void setUp() throws Exception {
+        dbReadMock = Mockito.mock((DatabaseReadInterface.class));
+        dbWriteMock = Mockito.mock(DatabaseWriteInterface.class);
+        when(dbReadMock.getAllCars()).thenReturn(carsTestData);
+        when(dbReadMock.getCarBrand(LP_UL_M_123)).thenReturn(BRAND_PORSCHE);
+        when(dbReadMock.findAvailableCar(from, to)).thenReturn(carsTestData);
+        when(dbReadMock.isCarAvailable(LP_UL_M_123, from, to)).thenReturn(true);
+        when(dbReadMock.getFirstName(LP_RV_HS_111)).thenReturn(BRAND_PORSCHE);
+
+
+        carRentalService = new CarRentalServiceImpl(dbReadMock, dbWriteMock);
+
+
+    }
+
 
     @Test
     public void testGetAllCars() {
