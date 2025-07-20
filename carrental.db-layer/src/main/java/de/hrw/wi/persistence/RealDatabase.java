@@ -203,7 +203,7 @@ public class RealDatabase implements DatabaseReadInterface, DatabaseWriteInterfa
             ps.setString(1,carId);
             ResultSet rs = ps.executeQuery();
             return getString(executeQuery(sqlStr));
-        } catch (SQLException e) {
+        }catch (SQLException e) {
             throw new PersistenceException(STR_CAR_BRAND_COULD_NOT_BE_READ);
         } finally {
             safeClose(c);
