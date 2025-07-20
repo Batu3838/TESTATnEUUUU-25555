@@ -200,10 +200,9 @@ public class RealDatabase implements DatabaseReadInterface, DatabaseWriteInterfa
             c = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             String sqlStr = "SELECT brand FROM CARS WHERE id=?";
             PreparedStatement ps = c.prepareStatement(sqlStr);
-            ps.setString(1,carId);
-            ResultSet rs = ps.executeQuery();
-            return getString(executeQuery(sqlStr));
-        }catch (SQLException e) {
+            ps.setString(1, carId);
+            return getString(ps.executeQuery());
+        } catch (SQLException e) {
             throw new PersistenceException(STR_CAR_BRAND_COULD_NOT_BE_READ);
         } finally {
             safeClose(c);
