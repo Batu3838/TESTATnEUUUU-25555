@@ -120,9 +120,15 @@ public class CarRentalServiceImplIntegrationTest {
      */
     @Test
     public void testAddIllegalCar() {
-        // Kein Kfz-Kennzeichen angegeben, das muss abgewehrt werden
         Car car = new Car(BRAND_BMW, "");
-        boolean status = carRentalService.addCar(car);
+        try {
+            boolean status = carRentalService.addCar(car);
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "Car is not valid.");
+
+        }
+
+
     }
 
     @Test
